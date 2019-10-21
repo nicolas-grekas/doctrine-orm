@@ -19,7 +19,8 @@
 
 namespace Doctrine\ORM\Tools;
 
-use Doctrine\ORM\ORMException;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\Schema\AbstractAsset;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
@@ -28,8 +29,10 @@ use Doctrine\DBAL\Schema\Visitor\DropSchemaSqlCollector;
 use Doctrine\DBAL\Schema\Visitor\RemoveNamespacedAssets;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Event\GenerateSchemaTableEventArgs;
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
+use function method_exists;
 
 /**
  * The SchemaTool is a tool to create/drop/update database schemas based on
@@ -896,10 +899,8 @@ class SchemaTool
      */
     public function getUpdateSchemaSql(array $classes, $saveMode = false)
     {
-        $sm = $this->em->getConnection()->getSchemaManager();
-
-        $fromSchema = $sm->createSchema();
         $toSchema = $this->getSchemaFromMetadata($classes);
+        $fromSchema = $this->createSchemaForComparison($toSchema);
 
         $comparator = new Comparator();
         $schemaDiff = $comparator->compare($fromSchema, $toSchema);
@@ -909,5 +910,56 @@ class SchemaTool
         }
 
         return $schemaDiff->toSql($this->platform);
+    }
+
+    /**
+     * Creates the schema from the database, ensuring tables from the target schema are whitelisted for comparison.
+     *
+     * @param Schema $toSchema The target schema.
+     *
+     * @return Schema The schema from the database.
+     */
+    private function createSchemaForComparison(Schema $toSchema) : Schema
+    {
+        $sm = $this->em->getConnection()->getSchemaManager();
+
+        // check and memorize if we are using dbal >= 2.9
+        static $hasFilterMethod;
+        $hasFilterMethod  = $hasFilterMethod ?? method_exists(Configuration::class, 'getSchemaAssetsFilter');
+        $config           = $this->em->getConnection()->getConfiguration();
+        $filter           = null;
+        $filterExpression = null;
+
+        if ($hasFilterMethod) {
+            // check and memorize if we are using dbal >= 3.0
+            static $hasFilterExpressionMethod;
+            $hasFilterExpressionMethod = $hasFilterExpressionMethod ?? method_exists(Configuration::class, 'getFilterSchemaAssetsExpression');
+
+            // backup schema assets filter and filter-expression
+            $filterExpression = $hasFilterExpressionMethod ? $config->getFilterSchemaAssetsExpression() : null;
+            $filter           = $config->getSchemaAssetsFilter();
+
+            if ($filter !== null) {
+                // whitelist assets we already know about in $toSchema, use the existing filter otherwise
+                $config->setSchemaAssetsFilter(static function ($asset) use ($filter, $toSchema) : bool {
+                    $assetName = $asset instanceof AbstractAsset ? $asset->getName() : $asset;
+
+                    return $toSchema->hasTable($assetName) || $toSchema->hasSequence($assetName) || $filter($asset);
+                });
+            }
+        }
+
+        try {
+            return $sm->createSchema();
+        } finally {
+            if ($hasFilterMethod && $filter !== null) {
+                // restore schema assets filter and filter-expression
+                if ($filterExpression !== null) {
+                    $config->setFilterSchemaAssetsExpression($filterExpression);
+                } else {
+                    $config->setSchemaAssetsFilter($filter);
+                }
+            }
+        }
     }
 }
