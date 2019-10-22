@@ -2,17 +2,33 @@
 
 namespace Doctrine\Tests\ORM\Functional\SchemaTool;
 
+use Doctrine\DBAL\Configuration;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\Tests\OrmFunctionalTestCase;
 use Doctrine\Tests\Models;
+use function array_filter;
+use function current;
+use function method_exists;
+use function sprintf;
+use function strpos;
 
 class MySqlSchemaToolTest extends OrmFunctionalTestCase
 {
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
+
         if ($this->_em->getConnection()->getDatabasePlatform()->getName() !== 'mysql') {
             $this->markTestSkipped('The ' . __CLASS__ .' requires the use of mysql.');
         }
+    }
+
+    protected function tearDown()
+    {
+        $this->_em->getConnection()->exec('DROP TABLE IF EXISTS entity_to_remove');
+        $this->_em->getConnection()->exec('DROP TABLE IF EXISTS other_entity_to_remove');
+
+        parent::tearDown();
     }
 
     public function testGetCreateSchemaSql()
@@ -89,6 +105,89 @@ class MySqlSchemaToolTest extends OrmFunctionalTestCase
         $this->assertEquals(0, count($sql));
     }
 
+    private function filterSqls(array $sqls, array $needles) : array
+    {
+        return array_filter($sqls, static function ($sql) use ($needles) {
+            foreach ($needles as $needle) {
+                if (strpos($sql, $needle) !== false) {
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+    public function testUpdateSchemaSql()
+    {
+        $classes = [
+            $this->_em->getClassMetadata(MyEntityToRemove::class),
+        ];
+        $tool    = new SchemaTool($this->_em);
+        $sqls    = $tool->getUpdateSchemaSql($classes);
+        $sqls    = $this->filterSqls($sqls, ['entity_to_remove']);
+        $this->assertCount(1, $sqls);
+        $this->assertContains('CREATE TABLE entity_to_remove (id INT AUTO_INCREMENT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB', $sqls);
+
+        $this->_em->getConnection()->exec(current($sqls));
+        $sqls = $tool->getUpdateSchemaSql($classes);
+        $sqls = $this->filterSqls($sqls, ['entity_to_remove']);
+        $this->assertCount(0, $sqls);
+
+        $classes[] = $this->_em->getClassMetadata(MyOtherEntityToRemove::class);
+        $sqls      = $tool->getUpdateSchemaSql($classes);
+        $sqls      = $this->filterSqls($sqls, ['entity_to_remove', 'other_entity_to_remove']);
+        $this->assertCount(1, $sqls);
+        $this->assertContains('CREATE TABLE other_entity_to_remove (id INT AUTO_INCREMENT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB', $sqls);
+    }
+
+    public function provideUpdateSchemaSqlWithSchemaAssetFilter() : array
+    {
+        return [
+            ['/^(?!entity_to_r)/', null],
+            [
+                null,
+                static function ($assetName) : bool {
+                    return $assetName !== 'entity_to_remove';
+                },
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideUpdateSchemaSqlWithSchemaAssetFilter
+     */
+    public function testUpdateSchemaSqlWithSchemaAssetFilter(?string $filterRegex, ?callable $filterCallback)
+    {
+        if ($filterRegex && ! method_exists(Configuration::class, 'setFilterSchemaAssetsExpression')) {
+            $this->markTestSkipped(sprintf('Test require %s::setFilterSchemaAssetsExpression method', Configuration::class));
+        }
+
+        if ($filterCallback && ! method_exists(Configuration::class, 'setSchemaAssetsFilter')) {
+            $this->markTestSkipped(sprintf('Test require %s::setSchemaAssetsFilter method', Configuration::class));
+        }
+
+        $classes = [$this->_em->getClassMetadata(MyEntityToRemove::class)];
+
+        $tool = new SchemaTool($this->_em);
+        $tool->createSchema($classes);
+
+        $config = $this->_em->getConnection()->getConfiguration();
+        if ($filterRegex) {
+            $config->setFilterSchemaAssetsExpression($filterRegex);
+        } else {
+            $config->setSchemaAssetsFilter($filterCallback);
+        }
+
+        $sqls = $tool->getUpdateSchemaSql($classes);
+        $sqls = $this->filterSqls($sqls, ['entity_to_remove']);
+        $this->assertCount(0, $sqls);
+
+        if ($filterRegex) {
+            $this->assertEquals($filterRegex, $config->getFilterSchemaAssetsExpression());
+        } else {
+            $this->assertSame($filterCallback, $config->getSchemaAssetsFilter());
+        }
+    }
 }
 
 /**
@@ -101,3 +200,28 @@ class MysqlSchemaNamespacedEntity
     public $id;
 }
 
+/**
+ * @Entity
+ * @Table(name="entity_to_remove")
+ */
+class MyEntityToRemove
+{
+    /**
+     * @Id @Column(type="integer")
+     * @GeneratedValue(strategy="AUTO")
+     */
+    public $id;
+}
+
+/**
+ * @Entity
+ * @Table(name="other_entity_to_remove")
+ */
+class MyOtherEntityToRemove
+{
+    /**
+     * @Id @Column(type="integer")
+     * @GeneratedValue(strategy="AUTO")
+     */
+    public $id;
+}

@@ -2,9 +2,14 @@
 
 namespace Doctrine\Tests\ORM\Functional\SchemaTool;
 
+use Doctrine\DBAL\Configuration;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\Tests\Models;
 use Doctrine\Tests\OrmFunctionalTestCase;
+use function array_filter;
+use function method_exists;
+use function sprintf;
+use function strpos;
 
 class PostgreSqlSchemaToolTest extends OrmFunctionalTestCase
 {
@@ -15,6 +20,14 @@ class PostgreSqlSchemaToolTest extends OrmFunctionalTestCase
         if ($this->_em->getConnection()->getDatabasePlatform()->getName() !== 'postgresql') {
             $this->markTestSkipped('The ' . __CLASS__ .' requires the use of postgresql.');
         }
+    }
+
+    protected function tearDown()
+    {
+        $this->_em->getConnection()->exec('DROP TABLE IF EXISTS pg_entity_to_remove');
+        $this->_em->getConnection()->exec('DROP SEQUENCE IF EXISTS pg_entity_to_remove_id_seq');
+
+        parent::tearDown();
     }
 
     public function testPostgresMetadataSequenceIncrementedBy10()
@@ -133,6 +146,57 @@ class PostgreSqlSchemaToolTest extends OrmFunctionalTestCase
 
         $this->assertCount(0, $sql, implode("\n", $sql));
     }
+
+    public function provideUpdateSchemaSqlWithSchemaAssetFilter() : array
+    {
+        return [
+            ['/^(?!pg_entity_to_r)/', null],
+            [
+                null,
+                static function ($assetName) : bool {
+                    return $assetName !== 'pg_entity_to_remove';
+                },
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideUpdateSchemaSqlWithSchemaAssetFilter
+     */
+    public function testUpdateSchemaSqlWithSchemaAssetFilter(?string $filterRegex, ?callable $filterCallback)
+    {
+        if ($filterRegex && ! method_exists(Configuration::class, 'setFilterSchemaAssetsExpression')) {
+            $this->markTestSkipped(sprintf('Test require %s::setFilterSchemaAssetsExpression method', Configuration::class));
+        }
+
+        if ($filterCallback && ! method_exists(Configuration::class, 'setSchemaAssetsFilter')) {
+            $this->markTestSkipped(sprintf('Test require %s::setSchemaAssetsFilter method', Configuration::class));
+        }
+
+        $classes = [$this->_em->getClassMetadata(PgMyEntityToRemove::class)];
+
+        $tool = new SchemaTool($this->_em);
+        $tool->createSchema($classes);
+
+        $config = $this->_em->getConnection()->getConfiguration();
+        if ($filterRegex) {
+            $config->setFilterSchemaAssetsExpression($filterRegex);
+        } else {
+            $config->setSchemaAssetsFilter($filterCallback);
+        }
+
+        $sqls = $tool->getUpdateSchemaSql($classes);
+        $sqls = array_filter($sqls, static function ($sql) {
+            return strpos($sql, 'pg_entity_to_remove') !== false;
+        });
+        $this->assertCount(0, $sqls);
+
+        if ($filterRegex) {
+            $this->assertEquals($filterRegex, $config->getFilterSchemaAssetsExpression());
+        } else {
+            $this->assertSame($filterCallback, $config->getSchemaAssetsFilter());
+        }
+    }
 }
 
 /**
@@ -200,4 +264,17 @@ class DDC1657Avatar
      * @Column(name="pk", type="integer", nullable=false)
      */
     private $pk;
+}
+
+/**
+ * @Entity
+ * @Table(name="pg_entity_to_remove")
+ */
+class PgMyEntityToRemove
+{
+    /**
+     * @Id @Column(type="integer")
+     * @GeneratedValue(strategy="AUTO")
+     */
+    public $id;
 }
