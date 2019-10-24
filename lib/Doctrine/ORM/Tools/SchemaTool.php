@@ -944,7 +944,7 @@ class SchemaTool
                 $config->setSchemaAssetsFilter(static function ($asset) use ($filter, $toSchema) : bool {
                     $assetName = $asset instanceof AbstractAsset ? $asset->getName() : $asset;
 
-                    return $toSchema->hasTable($assetName) || $toSchema->hasSequence($assetName) || $filter($asset);
+                    return $filter($asset);
                 });
             }
         }
