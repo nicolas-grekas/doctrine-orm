@@ -165,12 +165,12 @@ class PostgreSqlSchemaToolTest extends OrmFunctionalTestCase
      */
     public function testUpdateSchemaSqlWithSchemaAssetFilter(?string $filterRegex, ?callable $filterCallback)
     {
-        if ($filterRegex && ! method_exists(Configuration::class, 'setFilterSchemaAssetsExpression')) {
-            $this->markTestSkipped(sprintf('Test require %s::setFilterSchemaAssetsExpression method', Configuration::class));
+        if (! method_exists(Configuration::class, 'setSchemaAssetsFilter')) {
+            $this->markTestSkipped(sprintf('Test require %s::setSchemaAssetsFilter method', Configuration::class));
         }
 
-        if ($filterCallback && ! method_exists(Configuration::class, 'setSchemaAssetsFilter')) {
-            $this->markTestSkipped(sprintf('Test require %s::setSchemaAssetsFilter method', Configuration::class));
+        if ($filterRegex && ! method_exists(Configuration::class, 'setFilterSchemaAssetsExpression')) {
+            $this->markTestSkipped(sprintf('Test require %s::setFilterSchemaAssetsExpression method', Configuration::class));
         }
 
         $classes = [$this->_em->getClassMetadata(PgMyEntityToRemove::class)];
