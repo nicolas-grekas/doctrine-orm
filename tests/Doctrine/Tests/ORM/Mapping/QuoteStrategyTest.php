@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Mapping;
 
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\DefaultQuoteStrategy;
 use Doctrine\ORM\Mapping\QuoteStrategy;

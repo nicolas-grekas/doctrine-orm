@@ -2,9 +2,9 @@
 
 namespace Doctrine\Tests\ORM\Functional\Ticket;
 
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectManagerAware;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManagerAware;
 use Doctrine\ORM\Proxy\Proxy;
 
 /**

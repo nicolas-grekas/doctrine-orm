@@ -19,7 +19,7 @@
 
 namespace Doctrine\ORM;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\Query\ResultSetMapping;
 
 /**

@@ -3,7 +3,7 @@
 namespace Doctrine\Tests;
 
 use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Driver\PDOSqlite\Driver as SqliteDriver;
 use Doctrine\DBAL\Logging\DebugStack;

@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Mapping;
 
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
 use Doctrine\ORM\Mapping\Builder\EmbeddedBuilder;
 use Doctrine\ORM\Mapping\Builder\FieldBuilder;

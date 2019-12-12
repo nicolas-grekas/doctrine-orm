@@ -19,7 +19,7 @@
 
 namespace Doctrine\ORM\Tools;
 
-use Doctrine\Common\Persistence\Proxy;
+use Doctrine\Persistence\Proxy;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;

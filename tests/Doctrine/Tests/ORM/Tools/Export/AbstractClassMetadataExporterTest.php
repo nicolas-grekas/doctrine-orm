@@ -3,7 +3,7 @@
 namespace Doctrine\Tests\ORM\Tools\Export;
 
 use Doctrine\Common\EventManager;
-use Doctrine\Common\Persistence\Mapping\Driver\PHPDriver;
+use Doctrine\Persistence\Mapping\Driver\PHPDriver;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadata;

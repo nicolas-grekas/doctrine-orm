@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Mapping;
 
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\ORM\Mapping\AnsiQuoteStrategy;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Tests\Models\CMS\CmsAddress;

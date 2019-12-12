@@ -3,7 +3,7 @@
 namespace Doctrine\Tests\ORM;
 
 use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Proxy\AbstractProxyFactory;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\Cache\CacheConfiguration;

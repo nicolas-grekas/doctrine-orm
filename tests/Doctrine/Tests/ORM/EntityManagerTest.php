@@ -3,8 +3,8 @@
 namespace Doctrine\Tests\ORM;
 
 use Doctrine\Common\EventManager;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Doctrine\Common\Persistence\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\Persistence\Mapping\MappingException;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;

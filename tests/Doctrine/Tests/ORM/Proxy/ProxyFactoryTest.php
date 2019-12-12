@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Proxy;
 
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\Common\Proxy\AbstractProxyFactory;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping\ClassMetadata;

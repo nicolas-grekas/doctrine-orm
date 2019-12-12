@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Functional;
 
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Tests\Models\Company\CompanyContractListener;

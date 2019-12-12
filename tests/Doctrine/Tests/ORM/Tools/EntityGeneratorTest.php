@@ -4,7 +4,7 @@ namespace Doctrine\Tests\ORM\Tools;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;

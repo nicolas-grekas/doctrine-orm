@@ -3,8 +3,8 @@
 namespace Doctrine\Tests\ORM\Mapping;
 
 use Doctrine\Common\EventManager;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
@@ -372,7 +372,7 @@ class ClassMetadataFactoryTest extends OrmTestCase
     public function testFallbackLoadingCausesEventTriggeringThatCanModifyFetchedMetadata()
     {
         $test          = $this;
-        /* @var $metadata \Doctrine\Common\Persistence\Mapping\ClassMetadata */
+        /** @var ClassMetadata $metadata */
         $metadata      = $this->createMock(ClassMetadata::class);
         $cmf           = new ClassMetadataFactory();
         $mockDriver    = new MetadataDriverMock();

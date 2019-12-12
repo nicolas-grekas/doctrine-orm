@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Functional;
 
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\Mapping\Driver\XmlDriver;
 use Doctrine\Tests\Models\OrnementalOrphanRemoval\PhoneNumber;

@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Mapping;
 
-use Doctrine\Common\Persistence\Mapping\Driver\PHPDriver;
+use Doctrine\Persistence\Mapping\Driver\PHPDriver;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Tests\Models\DDC889\DDC889Class;
 use Doctrine\Tests\ORM\Mapping;

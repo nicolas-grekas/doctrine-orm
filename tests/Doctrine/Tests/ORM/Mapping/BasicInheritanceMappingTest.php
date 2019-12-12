@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Mapping;
 
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Id\SequenceGenerator;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;

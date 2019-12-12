@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Functional;
 
-use Doctrine\Common\Persistence\Proxy;
+use Doctrine\Persistence\Proxy;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Proxy\ProxyFactory;
 use Doctrine\Tests\Models\Company\CompanyAuction;

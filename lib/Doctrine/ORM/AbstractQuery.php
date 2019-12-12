@@ -19,7 +19,7 @@
 
 namespace Doctrine\ORM;
 
-use Doctrine\Common\Persistence\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\MappingException;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;

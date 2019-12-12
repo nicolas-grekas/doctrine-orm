@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\EventListener;
 
-use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
+use Doctrine\Persistence\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 
@@ -20,7 +20,7 @@ class CacheMetadataListener
     protected $enabledItems = [];
 
     /**
-     * @param \Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs $event
+     * @param LoadClassMetadataEventArgs $event
      */
     public function loadClassMetadata(LoadClassMetadataEventArgs $event)
     {

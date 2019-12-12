@@ -19,7 +19,7 @@
 
 namespace Doctrine\Tests\ORM\Internal;
 
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\ListenersInvoker;
 use Doctrine\ORM\Events;

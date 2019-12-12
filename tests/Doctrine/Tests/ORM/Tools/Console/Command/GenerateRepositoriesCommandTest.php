@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Tools\Console\Command;
 
-use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
+use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;

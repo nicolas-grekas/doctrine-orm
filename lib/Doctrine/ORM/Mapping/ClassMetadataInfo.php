@@ -21,12 +21,13 @@ namespace Doctrine\ORM\Mapping;
 
 use BadMethodCallException;
 use Doctrine\Instantiator\Instantiator;
+use Doctrine\Persistence\Mapping\ReflectionService;
 use InvalidArgumentException;
 use RuntimeException;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use ReflectionClass;
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\Cache\CacheException;
 
 /**
@@ -914,7 +915,7 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Restores some state that can not be serialized/unserialized.
      *
-     * @param \Doctrine\Common\Persistence\Mapping\ReflectionService $reflService
+     * @param ReflectionService $reflService
      *
      * @return void
      */
@@ -975,7 +976,7 @@ class ClassMetadataInfo implements ClassMetadata
      * Initializes a new ClassMetadata instance that will hold the object-relational mapping
      * metadata of the class with the given name.
      *
-     * @param \Doctrine\Common\Persistence\Mapping\ReflectionService $reflService The reflection service.
+     * @param ReflectionService $reflService The reflection service.
      *
      * @return void
      */
@@ -1037,7 +1038,7 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Validates lifecycle callbacks.
      *
-     * @param \Doctrine\Common\Persistence\Mapping\ReflectionService $reflService
+     * @param ReflectionService $reflService
      *
      * @return void
      *

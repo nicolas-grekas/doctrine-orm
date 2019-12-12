@@ -2,7 +2,7 @@
 
 namespace Doctrine\Performance\Hydration;
 
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\Performance\EntityManagerFactory;
 use Doctrine\Tests\Models\Company;
 use PhpBench\Benchmark\Metadata\Annotations\BeforeMethods;
