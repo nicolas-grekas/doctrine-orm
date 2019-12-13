@@ -20,12 +20,12 @@
 namespace Doctrine\ORM\Mapping\Driver;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Persistence\Mapping\ClassMetadata;
-use Doctrine\Persistence\Mapping\Driver\AnnotationDriver as AbstractAnnotationDriver;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping;
 use Doctrine\ORM\Mapping\Builder\EntityListenerBuilder;
 use Doctrine\ORM\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\Driver\AnnotationDriver as AbstractAnnotationDriver;
 use function interface_exists;
 
 /**
@@ -673,4 +673,4 @@ class AnnotationDriver extends AbstractAnnotationDriver
     }
 }
 
-interface_exists(\Doctrine\Common\Persistence\Mapping\ClassMetadata::class);
+interface_exists(ClassMetadata::class);

@@ -2,7 +2,7 @@
 
 namespace Doctrine\Tests\ORM\Functional;
 
-use Doctrine\Common\Persistence\PersistentObject;
+use Doctrine\Persistence\PersistentObject;
 use Doctrine\Tests\OrmFunctionalTestCase;
 
 /**

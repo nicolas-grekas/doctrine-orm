@@ -3,8 +3,6 @@
 namespace Doctrine\Tests\ORM\Mapping;
 
 use Doctrine\Common\EventManager;
-use Doctrine\Persistence\Mapping\Driver\MappingDriver;
-use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
@@ -16,6 +14,8 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\Tests\Mocks\ConnectionMock;
 use Doctrine\Tests\Mocks\DriverMock;
 use Doctrine\Tests\Mocks\EntityManagerMock;

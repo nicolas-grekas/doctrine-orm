@@ -920,4 +920,4 @@ class Configuration extends \Doctrine\DBAL\Configuration
     }
 }
 
-interface_exists(\Doctrine\Common\Persistence\Mapping\Driver\MappingDriver::class);
+interface_exists(MappingDriver::class);

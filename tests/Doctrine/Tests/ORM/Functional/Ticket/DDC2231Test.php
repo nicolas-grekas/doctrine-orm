@@ -2,10 +2,10 @@
 
 namespace Doctrine\Tests\ORM\Functional\Ticket;
 
+use Doctrine\ORM\Proxy\Proxy;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectManagerAware;
-use Doctrine\ORM\Proxy\Proxy;
 
 /**
  * @group DDC-2231

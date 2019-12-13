@@ -20,8 +20,6 @@
 namespace Doctrine\ORM\Mapping\Driver;
 
 use Doctrine\Common\Inflector\Inflector;
-use Doctrine\Persistence\Mapping\ClassMetadata;
-use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Table;
@@ -29,6 +27,8 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use function interface_exists;
 use function preg_replace;
 
@@ -557,4 +557,4 @@ class DatabaseDriver implements MappingDriver
     }
 }
 
-interface_exists(\Doctrine\Common\Persistence\Mapping\ClassMetadata::class);
+interface_exists(ClassMetadata::class);

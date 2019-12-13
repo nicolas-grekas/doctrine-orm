@@ -881,4 +881,4 @@ class XmlDriver extends FileDriver
     }
 }
 
-interface_exists(\Doctrine\Common\Persistence\Mapping\ClassMetadata::class);
+interface_exists(ClassMetadata::class);

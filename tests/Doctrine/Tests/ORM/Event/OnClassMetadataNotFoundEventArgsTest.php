@@ -2,9 +2,9 @@
 
 namespace Doctrine\Tests\ORM;
 
+use Doctrine\ORM\Event\OnClassMetadataNotFoundEventArgs;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\ObjectManager;
-use Doctrine\ORM\Event\OnClassMetadataNotFoundEventArgs;
 use PHPUnit\Framework\TestCase;
 
 /**

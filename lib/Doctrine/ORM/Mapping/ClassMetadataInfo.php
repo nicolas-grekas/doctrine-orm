@@ -20,15 +20,15 @@
 namespace Doctrine\ORM\Mapping;
 
 use BadMethodCallException;
-use Doctrine\Instantiator\Instantiator;
-use Doctrine\Persistence\Mapping\ReflectionService;
-use InvalidArgumentException;
-use RuntimeException;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use ReflectionClass;
-use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Instantiator\Instantiator;
 use Doctrine\ORM\Cache\CacheException;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\ReflectionService;
+use InvalidArgumentException;
+use ReflectionClass;
+use RuntimeException;
 
 /**
  * A <tt>ClassMetadata</tt> instance holds all the object-relational mapping metadata

@@ -19,8 +19,8 @@
 
 namespace Doctrine\ORM\Tools;
 
-use Doctrine\Persistence\Mapping\StaticReflectionService;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
+use Doctrine\Persistence\Mapping\StaticReflectionService;
 
 /**
  * The DisconnectedClassMetadataFactory is used to create ClassMetadataInfo objects

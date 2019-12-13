@@ -19,7 +19,6 @@
 
 namespace Doctrine\ORM\Proxy;
 
-use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Proxy\AbstractProxyFactory;
 use Doctrine\Common\Proxy\Proxy as BaseProxy;
 use Doctrine\Common\Proxy\ProxyDefinition;
@@ -29,6 +28,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Persisters\Entity\EntityPersister;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Utility\IdentifierFlattener;
+use Doctrine\Persistence\Mapping\ClassMetadata;
 use function interface_exists;
 
 /**
@@ -207,4 +207,4 @@ class ProxyFactory extends AbstractProxyFactory
     }
 }
 
-interface_exists(\Doctrine\Common\Persistence\Mapping\ClassMetadata::class);
+interface_exists(ClassMetadata::class);

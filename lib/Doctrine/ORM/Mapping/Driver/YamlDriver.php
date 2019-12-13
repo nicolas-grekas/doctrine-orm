@@ -19,10 +19,10 @@
 
 namespace Doctrine\ORM\Mapping\Driver;
 
-use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\Builder\EntityListenerBuilder;
 use Doctrine\ORM\Mapping\ClassMetadata as Metadata;
 use Doctrine\ORM\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\FileDriver;
 use Symfony\Component\Yaml\Yaml;
 use function interface_exists;
@@ -819,4 +819,4 @@ class YamlDriver extends FileDriver
     }
 }
 
-interface_exists(\Doctrine\Common\Persistence\Mapping\ClassMetadata::class);
+interface_exists(ClassMetadata::class);

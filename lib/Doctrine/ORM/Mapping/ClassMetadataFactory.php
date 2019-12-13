@@ -798,5 +798,5 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
     }
 }
 
-interface_exists(\Doctrine\Common\Persistence\Mapping\ClassMetadata::class);
-interface_exists(\Doctrine\Common\Persistence\Mapping\ReflectionService::class);
+interface_exists(ClassMetadataInterface::class);
+interface_exists(ReflectionService::class);

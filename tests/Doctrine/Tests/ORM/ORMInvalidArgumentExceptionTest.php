@@ -3,12 +3,12 @@
 namespace Doctrine\Tests\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\NotifyPropertyChanged;
-use Doctrine\Common\PropertyChangedListener;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\NotifyPropertyChanged;
+use Doctrine\Persistence\PropertyChangedListener;
 use Doctrine\Tests\Mocks\ConnectionMock;
 use Doctrine\Tests\Mocks\DriverMock;
 use Doctrine\Tests\Mocks\EntityManagerMock;

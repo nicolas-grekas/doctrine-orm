@@ -2,9 +2,9 @@
 
 namespace Doctrine\Tests\EventListener;
 
-use Doctrine\Persistence\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\Persistence\Event\LoadClassMetadataEventArgs;
 
 class CacheMetadataListener
 {

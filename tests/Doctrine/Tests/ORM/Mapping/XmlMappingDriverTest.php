@@ -3,10 +3,10 @@
 namespace Doctrine\Tests\ORM\Mapping;
 
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Mapping\Driver\XmlDriver;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\Tests\Models\DDC117\DDC117Translation;
 use Doctrine\Tests\Models\DDC3293\DDC3293User;
 use Doctrine\Tests\Models\DDC3293\DDC3293UserPrefixed;
