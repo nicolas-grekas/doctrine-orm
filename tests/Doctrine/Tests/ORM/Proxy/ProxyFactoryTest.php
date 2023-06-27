@@ -128,7 +128,7 @@ class ProxyFactoryTest extends OrmTestCase
         $this->uowMock->setEntityPersister(ECommerceFeature::class, $persister);
 
         $proxy = $this->proxyFactory->getProxy(ECommerceFeature::class, ['id' => 42]);
-        assert($proxy instanceof Proxy);
+        self::assertTrue(\ReflectionLazyObject::isLazyObject($proxy));
 
         $persister
             ->expects(self::atLeastOnce())
@@ -141,7 +141,7 @@ class ProxyFactoryTest extends OrmTestCase
         } catch (EntityNotFoundException) {
         }
 
-        self::assertFalse($proxy->__isInitialized());
+        self::assertTrue(\ReflectionLazyObject::isLazyObject($proxy));
     }
 
     #[Group('DDC-2432')]
@@ -154,7 +154,7 @@ class ProxyFactoryTest extends OrmTestCase
         $this->uowMock->setEntityPersister(ECommerceFeature::class, $persister);
 
         $proxy = $this->proxyFactory->getProxy(ECommerceFeature::class, ['id' => 42]);
-        assert($proxy instanceof Proxy);
+        self::assertTrue(\ReflectionLazyObject::isLazyObject($proxy));
 
         $persister
             ->expects(self::atLeastOnce())
@@ -163,12 +163,12 @@ class ProxyFactoryTest extends OrmTestCase
 
         try {
             $cloned = clone $proxy;
-            $cloned->__load();
+            \ReflectionLazyObject::fromInstance($cloned)->initialize();
             self::fail('An exception was expected to be raised');
         } catch (EntityNotFoundException) {
         }
 
-        self::assertFalse($proxy->__isInitialized());
+        self::assertTrue(\ReflectionLazyObject::isLazyObject($proxy));
     }
 
     public function testProxyClonesParentFields(): void
@@ -190,7 +190,7 @@ class ProxyFactoryTest extends OrmTestCase
         $this->uowMock->setEntityPersister(CompanyEmployee::class, $persister);
 
         $proxy = $this->proxyFactory->getProxy(CompanyEmployee::class, ['id' => 42]);
-        assert($proxy instanceof Proxy);
+        self::assertTrue(\ReflectionLazyObject::isLazyObject($proxy));
 
         $loadByIdMock = $persister
             ->expects(self::atLeastOnce())

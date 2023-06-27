@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Doctrine\Performance\LazyLoading;
 
-use Doctrine\ORM\Proxy\InternalProxy as Proxy;
 use Doctrine\Performance\EntityManagerFactory;
 use Doctrine\Performance\Mock\NonProxyLoadingEntityManager;
 use Doctrine\Tests\Models\CMS\CmsEmployee;
@@ -13,16 +12,16 @@ use Doctrine\Tests\Models\CMS\CmsUser;
 /** @BeforeMethods({"init"}) */
 final class ProxyInitializationTimeBench
 {
-    /** @var Proxy[] */
+    /** @var object[] */
     private array|null $cmsUsers = null;
 
-    /** @var Proxy[] */
+    /** @var object[] */
     private array|null $cmsEmployees = null;
 
-    /** @var Proxy[] */
+    /** @var object[] */
     private array|null $initializedUsers = null;
 
-    /** @var Proxy[] */
+    /** @var object[] */
     private array|null $initializedEmployees = null;
 
     public function init(): void
@@ -36,36 +35,36 @@ final class ProxyInitializationTimeBench
             $this->initializedUsers[$i]     = $proxyFactory->getProxy(CmsUser::class, ['id' => $i]);
             $this->initializedEmployees[$i] = $proxyFactory->getProxy(CmsEmployee::class, ['id' => $i]);
 
-            $this->initializedUsers[$i]->__load();
-            $this->initializedEmployees[$i]->__load();
+            \ReflectionLazyObject::fromInstance($this->initializedUsers[$i])->initialize();
+            \ReflectionLazyObject::fromInstance($this->initializedEmployees[$i])->initialize();
         }
     }
 
     public function benchCmsUserInitialization(): void
     {
         foreach ($this->cmsUsers as $proxy) {
-            $proxy->__load();
+            \ReflectionLazyObject::fromInstance($proxy)->initialize();
         }
     }
 
     public function benchCmsEmployeeInitialization(): void
     {
         foreach ($this->cmsEmployees as $proxy) {
-            $proxy->__load();
+            \ReflectionLazyObject::fromInstance($proxy)->initialize();
         }
     }
 
     public function benchInitializationOfAlreadyInitializedCmsUsers(): void
     {
         foreach ($this->initializedUsers as $proxy) {
-            $proxy->__load();
+            \ReflectionLazyObject::fromInstance($proxy)->initialize();
         }
     }
 
     public function benchInitializationOfAlreadyInitializedCmsEmployees(): void
     {
         foreach ($this->initializedEmployees as $proxy) {
-            $proxy->__load();
+            \ReflectionLazyObject::fromInstance($proxy)->initialize();
         }
     }
 }

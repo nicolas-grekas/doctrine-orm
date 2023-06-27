@@ -2611,6 +2611,11 @@ class ClassMetadata implements PersistenceClassMetadata, Stringable
     private function getAccessibleProperty(ReflectionService $reflService, string $class, string $field): ReflectionProperty|null
     {
         $reflectionProperty = $reflService->getAccessibleProperty($class, $field);
+
+        if ($reflectionProperty) {
+            $reflectionProperty = new ReflectionLazyProperty($reflectionProperty);
+        }
+
         if ($reflectionProperty?->isReadOnly()) {
             $declaringClass = $reflectionProperty->class;
             if ($declaringClass !== $class) {

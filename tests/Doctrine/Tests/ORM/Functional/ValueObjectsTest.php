@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\Mapping\ReflectionEmbeddedProperty;
+use Doctrine\ORM\Mapping\ReflectionLazyProperty;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\Persistence\Reflection\RuntimeReflectionProperty;
 use Doctrine\Tests\OrmFunctionalTestCase;
@@ -56,7 +57,7 @@ class ValueObjectsTest extends OrmFunctionalTestCase
             );
         } elseif (class_exists(RuntimeReflectionProperty::class)) {
             self::assertInstanceOf(
-                RuntimeReflectionProperty::class,
+                ReflectionLazyProperty::class,
                 $classMetadata->getReflectionProperty('address'),
             );
         } else {

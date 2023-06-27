@@ -6,7 +6,6 @@ namespace Doctrine\Tests\ORM\Functional;
 
 use Doctrine\Common\Proxy\Proxy as CommonProxy;
 use Doctrine\ORM\Proxy\DefaultProxyClassNameResolver;
-use Doctrine\ORM\Proxy\InternalProxy;
 use Doctrine\Tests\Models\Company\CompanyAuction;
 use Doctrine\Tests\Models\ECommerce\ECommerceProduct;
 use Doctrine\Tests\Models\ECommerce\ECommerceShipping;
@@ -229,16 +228,14 @@ class ReferenceProxyTest extends OrmFunctionalTestCase
         assert($entity instanceof ECommerceProduct);
         $className = DefaultProxyClassNameResolver::getClass($entity);
 
-        self::assertInstanceOf(InternalProxy::class, $entity);
         self::assertTrue($this->isUninitializedObject($entity));
         self::assertEquals(ECommerceProduct::class, $className);
 
         $restName      = str_replace($this->_em->getConfiguration()->getProxyNamespace(), '', $entity::class);
         $restName      = substr($entity::class, strlen($this->_em->getConfiguration()->getProxyNamespace()) + 1);
         $proxyFileName = $this->_em->getConfiguration()->getProxyDir() . DIRECTORY_SEPARATOR . str_replace('\\', '', $restName) . '.php';
-        self::assertTrue(file_exists($proxyFileName), 'Proxy file name cannot be found generically.');
 
-        $entity->__load();
+        \ReflectionLazyObject::fromInstance($entity)->initialize();
         self::assertFalse($this->isUninitializedObject($entity));
     }
 }

@@ -11,7 +11,6 @@ use Doctrine\ORM\Internal\Hydration\HydrationException;
 use Doctrine\ORM\Internal\Hydration\ObjectHydrator;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\PersistentCollection;
-use Doctrine\ORM\Proxy\InternalProxy;
 use Doctrine\ORM\Proxy\ProxyFactory;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Tests\Models\CMS\CmsAddress;
@@ -1031,7 +1030,7 @@ class ObjectHydratorTest extends HydrationTestCase
             'Proxies',
             ProxyFactory::AUTOGENERATE_ALWAYS,
         ) extends ProxyFactory {
-            public function getProxy(string $className, array $identifier): InternalProxy
+            public function getProxy(string $className, array $identifier): object
             {
                 TestCase::assertSame(ECommerceShipping::class, $className);
                 TestCase::assertSame(['id' => 42], $identifier);
@@ -1085,7 +1084,7 @@ class ObjectHydratorTest extends HydrationTestCase
             'Proxies',
             ProxyFactory::AUTOGENERATE_ALWAYS,
         ) extends ProxyFactory {
-            public function getProxy(string $className, array $identifier): InternalProxy
+            public function getProxy(string $className, array $identifier): object
             {
                 TestCase::assertSame(ECommerceShipping::class, $className);
                 TestCase::assertSame(['id' => 42], $identifier);

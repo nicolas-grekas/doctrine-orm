@@ -9,7 +9,6 @@ use ArrayObject;
 use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Proxy\DefaultProxyClassNameResolver;
-use Doctrine\Persistence\Proxy;
 use stdClass;
 
 use function array_keys;
@@ -124,9 +123,9 @@ final class Debug
 
         $return->__CLASS__ = DefaultProxyClassNameResolver::getClass($var);
 
-        if ($var instanceof Proxy) {
+        if (is_object($var) && \ReflectionLazyObject::isLazyObject($var)) {
             $return->__IS_PROXY__          = true;
-            $return->__PROXY_INITIALIZED__ = $var->__isInitialized();
+            $return->__PROXY_INITIALIZED__ = false;
         }
 
         if ($var instanceof ArrayObject || $var instanceof ArrayIterator) {

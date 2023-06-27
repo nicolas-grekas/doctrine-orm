@@ -40,7 +40,6 @@ use Doctrine\ORM\Persisters\Entity\BasicEntityPersister;
 use Doctrine\ORM\Persisters\Entity\EntityPersister;
 use Doctrine\ORM\Persisters\Entity\JoinedSubclassPersister;
 use Doctrine\ORM\Persisters\Entity\SingleTablePersister;
-use Doctrine\ORM\Proxy\InternalProxy;
 use Doctrine\ORM\Utility\IdentifierFlattener;
 use Doctrine\Persistence\PropertyChangedListener;
 use Exception;
@@ -2311,8 +2310,8 @@ class UnitOfWork implements PropertyChangedListener
                 }
             }
 
-            if ($this->isUninitializedObject($entity)) {
-                $entity->__setInitialized(true);
+            if ($r = \ReflectionLazyObject::fromInstance($entity)) {
+                $r->initialize(static fn () => null);
             } else {
                 if (
                     ! isset($hints[Query::HINT_REFRESH])
@@ -2861,8 +2860,10 @@ class UnitOfWork implements PropertyChangedListener
      */
     public function initializeObject(object $obj): void
     {
-        if ($obj instanceof InternalProxy) {
-            $obj->__load();
+        $r = \ReflectionLazyObject::fromInstance($obj);
+
+        if ($r) {
+            $r->initialize();
 
             return;
         }
@@ -2874,12 +2875,10 @@ class UnitOfWork implements PropertyChangedListener
 
     /**
      * Tests if a value is an uninitialized entity.
-     *
-     * @psalm-assert-if-true InternalProxy $obj
      */
     public function isUninitializedObject(mixed $obj): bool
     {
-        return $obj instanceof InternalProxy && ! $obj->__isInitialized();
+        return is_object($obj) && \ReflectionLazyObject::isLazyObject($obj);
     }
 
     /**
